@@ -3,8 +3,8 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
-
-
+var cors = require('cors')
+app.use(cors()) // Use this after the variable declaration
 
 const mysql = require('mysql');
 
