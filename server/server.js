@@ -21,12 +21,7 @@ connection.connect((error) => {
     console.error(error);
     } else {
     console.log('Connected to the database');
-    var sql = "UPDATE tasks SET email = 'amjad@email.com' WHERE email = 'task1'";
-   connection.query(sql, (err,data) => {
-   if (err) throw err;
-   console.log(data.affectedRows + " record(s) updated");
-   
-});
+  
     }
 });     
 
@@ -36,20 +31,43 @@ connection.connect((error) => {
     
 // Create a route and an API endpoint
 
+app.post("http://localhost:3001/users", (req, resp) => {
 
-app.get('/tasks', (request, response) => {
-  connection.query('SELECT * FROM tasks', (error, data) => {
-    if (error) {
-      console.error(error);
-      response.status(500).send('Error retrieving users');
-    } else {
-      response.send(data);
-    }
-  });
-});
-
+  const data=req.body
+  connection.query("INSERT INTO users SET ?", data, 
+  (error, results) => { if (error) throw error;
+                        resp.send(results)
+                      
+                      
+                      })
+                    }
 
 
+
+)
+
+
+
+
+app.get('/users', (request, response) => {
+
+	connection.query('SELECT * FROM users', (error, data) => {
+
+	if (error) {
+
+	console.error(error);
+
+	response.status(500).send('Error retrieving users');
+
+	} else {
+
+	response.send(data);
+
+	}
+
+	});
+
+	});
 
 
 
