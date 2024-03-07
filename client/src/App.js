@@ -1,34 +1,58 @@
 import './App.css';
-import useFetch from "./useFetch.js";
+import useFetchPost from "./useFetchPost.js";
 import React, {useEffect, useState} from "react"
 import axios from "axios";
 
 
 export default function App() {
-  
-const{data,loading,error} = useFetch("http://localhost:3001/tasks")  
-  
-if (loading) return <h1>Loading</h1>
 
-if (error) console.log(error)
+const [cred, setCred] = useState({name:"", email:""})
 
+const handleChange = (e) => {
 
-
-return(<Credentials data={data}/>
-)  
-
-
+  setCred({...cred, [e.target.name]: e.target.value})
 }
 
 
-function Credentials({data}){
+const handleSubmit =  (url, postdata) => {
+
+  axios.post(url, postdata).then((response) => {
+    console.log("This has been posted", response.data);
+}).catch((error) => {
+    console.log(error);
+
+}).finally(() => {
+    console.log(false)
+})
+
+};
+
+
+
+return (
+  <form onSubmit={() =>handleSubmit("http://localhost:3001/users", cred)}>
+    <label>
+      Name:
+      <input type="text" name="name" value={cred.name} onChange={handleChange} />
+    </label>
+    <br />
+    <label>
+      email:
+      <input type="text" name="email" value={cred.email} onChange={handleChange} />
+    </label>
+    <br />
+    <button type="submit">Add Post</button>
+  </form>
+);
+
+
+
+} 
   
-console.log("data", data)
-return (<div>
-<li>id:{data? data[0].id : "undefined"} </li>
-<li>name:{data? data[0].name : "undefined"}</li>
-<li>email:{data? data[0].email : "undefined"} </li>
-</div>)
-}
+
+
+
+
+
 
 
